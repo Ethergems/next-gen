@@ -1,0 +1,90 @@
+{
+  "name": "blessed-next-gen-dev-environment",
+  "version": "1.0.0",
+  "private": true,
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "electron:dev": "concurrently \"cross-env BROWSER=none npm run dev\" \"wait-on tcp:5173 && electron .\"",
+    "electron:build": "npm run build && electron-builder",
+    "electron:build:win": "npm run build && electron-builder --win --x64 --ia32",
+    "electron:build:mac": "npm run build && electron-builder --mac",
+    "electron:build:linux": "npm run build && electron-builder --linux",
+    "electron:build:portable": "npm run build && electron-builder --win portable --x64 --ia32 --mac --linux",
+    "make:installer": "npm run electron:build:win",
+    "make:portable": "npm run electron:build:portable",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@react-three/drei": "^9.97.0",
+    "@react-three/fiber": "^8.15.16",
+    "@types/three": "^0.161.2",
+    "three": "^0.161.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@prisma/client": "^5.9.1",
+    "express": "^4.18.2",
+    "openai": "^4.26.0",
+    "electron": "^28.2.1",
+    "electron-builder": "^24.9.1",
+    "@monaco-editor/react": "^4.6.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3",
+    "zod": "^3.22.4",
+    "cross-env": "^7.0.3",
+    "wait-on": "^7.2.0",
+    "dotenv": "^16.4.1",
+    "electron-store": "^8.1.0",
+    "electron-updater": "^6.1.7",
+    "electron-log": "^5.0.1",
+    "platform-detect": "^3.0.1",
+    "mobile-detect": "^1.4.5",
+    "debug": "^4.3.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "@types/express": "^4.17.21",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.17",
+    "concurrently": "^8.2.2",
+    "postcss": "^8.4.33",
+    "prisma": "^5.9.1",
+    "vite": "^5.0.12",
+    "vitest": "^1.2.2"
+  },
+  "build": {
+    "appId": "com.blessed.nextgen.dev",
+    "productName": "Blessed Next Gen Dev Environment",
+    "asar": true,
+    "compression": "maximum",
+    "portable": {
+      "splashImage": "build/splash.png",
+      "requestExecutionLevel": "user",
+      "artifactName": "${productName}-Portable-${version}.${ext}"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": ["x64", "ia32"]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "build/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "build/icon.png"
+    },
+    "directories": {
+      "buildResources": "build",
+      "output": "portable"
+    }
+  }
+}
